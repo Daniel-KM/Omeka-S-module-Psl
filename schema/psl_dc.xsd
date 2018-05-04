@@ -2,7 +2,8 @@
         xmlns:psl_dc="http://purl.org/psl/psl_dc/"
         xmlns:dc="http://purl.org/dc/elements/1.1/"
         xmlns="http://www.w3.org/2001/XMLSchema"
-        elementFormDefault="qualified" attributeFormDefault="unqualified">
+        elementFormDefault="qualified"
+        attributeFormDefault="unqualified">
 
   <import namespace="http://www.w3.org/XML/1998/namespace"
           schemaLocation="http://www.w3.org/2001/03/xml.xsd">
@@ -34,5 +35,26 @@
     </simpleContent>
   </complexType>
 
-</schema>
+  <complexType name="toponyme">
+    <simpleContent>
+      <restriction base="dc:SimpleLiteral">
+        <simpleType>
+          <restriction base="string"/>
+        </simpleType>
+        <attribute ref="xml:lang" use="prohibited"/>
+      </restriction>
+    </simpleContent>
+  </complexType>
 
+  <complexType name="director">
+    <simpleContent>
+      <restriction base="dc:SimpleLiteral">
+        <simpleType>
+          <restriction base="string"/>
+        </simpleType>
+        <attribute ref="xml:lang" use="prohibited"/>
+      </restriction>
+    </simpleContent>
+  </complexType>
+
+</schema>
