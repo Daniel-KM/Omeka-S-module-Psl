@@ -3,11 +3,11 @@ namespace Psl;
 
 return [
     'listeners' => [
-        'Psl\MvcListeners',
+        Mvc\MvcListeners::class,
     ],
     'service_manager' => [
         'invokables' => [
-            'Psl\MvcListeners' => Mvc\MvcListeners::class,
+            Mvc\MvcListeners::class => Mvc\MvcListeners::class,
         ],
     ],
     'oaipmhrepository' => [
