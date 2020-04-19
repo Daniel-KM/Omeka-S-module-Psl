@@ -8,8 +8,12 @@ if (!class_exists(\Generic\AbstractModule::class)) {
 }
 
 use Generic\AbstractModule;
+use Omeka\Api\Representation\ItemRepresentation;
 use Omeka\Permissions\Acl;
+use Zend\EventManager\Event;
+use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Mvc\MvcEvent;
+use Zend\View\Renderer\PhpRenderer;
 
 class Module extends AbstractModule
 {
@@ -53,5 +57,90 @@ class Module extends AbstractModule
                     ['batch_create']
                 );
         }
+    }
+
+    public function attachListeners(SharedEventManagerInterface $sharedEventManager)
+    {
+        $sharedEventManager->attach(
+            'Omeka\Controller\Site\Item',
+            'view.show.before',
+            [$this, 'handleViewShowBeforeItem']
+        );
+        $sharedEventManager->attach(
+            'Omeka\Controller\Site\Media',
+            'view.show.before',
+            [$this, 'handleViewShowBeforeMedia']
+        );
+
+        $sharedEventManager->attach(
+            \Omeka\Form\SettingForm::class,
+            'form.add_elements',
+            [$this, 'handleMainSettings']
+        );
+        $sharedEventManager->attach(
+            \Omeka\Form\SettingForm::class,
+            'form.add_input_filters',
+            [$this, 'handleMainSettingsFilters']
+        );
+    }
+
+    public function handleMainSettingsFilters(Event $event)
+    {
+        $event->getParam('inputFilter')
+            ->get('psl')
+            ->add([
+                'name' => 'psl_reserved_item_sets',
+                'required' => false,
+            ])
+            ->add([
+                'name' => 'psl_reserved_media_types',
+                'required' => false,
+            ]);
+    }
+
+    public function handleViewShowBeforeItem(Event $event)
+    {
+        $view = $event->getTarget();
+        $this->hideUvDownloadButton($view, $view->item, $view->item->media());
+    }
+
+    public function handleViewShowBeforeMedia(Event $event)
+    {
+        $view = $event->getTarget();
+        $this->hideUvDownloadButton($view, $view->media->item(), [$view->media]);
+    }
+
+    protected function hideUvDownloadButton(PhpRenderer $view, ItemRepresentation $item, array $medias = [])
+    {
+        $services = $this->getServiceLocator();
+        $settings = $services->get('Omeka\Settings');
+
+        $reservedAll = $settings->get('psl_reserved_all');
+        if ($reservedAll) {
+            $view->headStyle()->appendStyle('.universal-viewer button.download { display: none; }');
+            return true;
+        }
+
+        $reservedItemSets = $settings->get('psl_reserved_item_sets', []);
+        if ($reservedItemSets) {
+            $isReserved = (bool) array_intersect(array_keys($item->itemSets()), $reservedItemSets);
+            if ($isReserved) {
+                $view->headStyle()->appendStyle('.universal-viewer button.download { display: none; }');
+                return true;
+            }
+        }
+
+        $reservedMediaTypes = $settings->get('psl_reserved_media_types', []);
+        if ($reservedMediaTypes) {
+            foreach ($medias as $media) {
+                $mediaType = $media->mediaType();
+                if ($mediaType && iin_array($mediaType)) {
+                    $view->headStyle()->appendStyle('.universal-viewer button.download { display: none; }');
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
