@@ -134,7 +134,7 @@ class Module extends AbstractModule
         if ($reservedMediaTypes) {
             foreach ($medias as $media) {
                 $mediaType = $media->mediaType();
-                if ($mediaType && iin_array($mediaType)) {
+                if ($mediaType && in_array($mediaType, $reservedMediaTypes)) {
                     $view->headStyle()->appendStyle('.universal-viewer button.download { display: none; }');
                     return true;
                 }
