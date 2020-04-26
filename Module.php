@@ -117,7 +117,7 @@ class Module extends AbstractModule
 
         $reservedAll = $settings->get('psl_reserved_all');
         if ($reservedAll) {
-            $view->headStyle()->appendStyle('.universal-viewer button.download { display: none; }');
+            $view->headStyle()->appendStyle('.universal-viewer button.download { display: none !important; }');
             return true;
         }
 
@@ -125,7 +125,7 @@ class Module extends AbstractModule
         if ($reservedItemSets) {
             $isReserved = (bool) array_intersect(array_keys($item->itemSets()), $reservedItemSets);
             if ($isReserved) {
-                $view->headStyle()->appendStyle('.universal-viewer button.download { display: none; }');
+                $view->headStyle()->appendStyle('.universal-viewer button.download { display: none !important; }');
                 return true;
             }
         }
@@ -135,7 +135,7 @@ class Module extends AbstractModule
             foreach ($medias as $media) {
                 $mediaType = $media->mediaType();
                 if ($mediaType && in_array($mediaType, $reservedMediaTypes)) {
-                    $view->headStyle()->appendStyle('.universal-viewer button.download { display: none; }');
+                    $view->headStyle()->appendStyle('.universal-viewer button.download { display: none !important; }');
                     return true;
                 }
             }
