@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Psl\OaiPmh\Metadata;
 
@@ -30,7 +30,7 @@ class PslDc extends AbstractMetadata
      * and further children for each of the Dublin Core fields present in the
      * item.
      */
-    public function appendMetadata(DOMElement $metadataElement, ItemRepresentation $item)
+    public function appendMetadata(DOMElement $metadataElement, ItemRepresentation $item): void
     {
         $document = $metadataElement->ownerDocument;
 

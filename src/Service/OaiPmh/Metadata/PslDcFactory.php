@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Psl\Service\OaiPmh\Metadata;
 
 use Interop\Container\ContainerInterface;
-use Psl\OaiPmh\Metadata\PslDc;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psl\OaiPmh\Metadata\PslDc;
 
 class PslDcFactory implements FactoryInterface
 {

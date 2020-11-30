@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Psl;
 
 if (!class_exists(\Generic\AbstractModule::class)) {
@@ -8,18 +8,18 @@ if (!class_exists(\Generic\AbstractModule::class)) {
 }
 
 use Generic\AbstractModule;
-use Omeka\Api\Representation\ItemRepresentation;
-use Omeka\Permissions\Acl;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\Mvc\MvcEvent;
 use Laminas\View\Renderer\PhpRenderer;
+use Omeka\Api\Representation\ItemRepresentation;
+use Omeka\Permissions\Acl;
 
 class Module extends AbstractModule
 {
     const NAMESPACE = __NAMESPACE__;
 
-    public function onBootstrap(MvcEvent $event)
+    public function onBootstrap(MvcEvent $event): void
     {
         parent::onBootstrap($event);
 
@@ -59,7 +59,7 @@ class Module extends AbstractModule
         }
     }
 
-    public function attachListeners(SharedEventManagerInterface $sharedEventManager)
+    public function attachListeners(SharedEventManagerInterface $sharedEventManager): void
     {
         $sharedEventManager->attach(
             'Omeka\Controller\Site\Item',
@@ -84,7 +84,7 @@ class Module extends AbstractModule
         );
     }
 
-    public function handleMainSettingsFilters(Event $event)
+    public function handleMainSettingsFilters(Event $event): void
     {
         $event->getParam('inputFilter')
             ->get('psl')
@@ -98,13 +98,13 @@ class Module extends AbstractModule
             ]);
     }
 
-    public function handleViewShowBeforeItem(Event $event)
+    public function handleViewShowBeforeItem(Event $event): void
     {
         $view = $event->getTarget();
         $this->hideUvDownloadButton($view, $view->item, $view->item->media());
     }
 
-    public function handleViewShowBeforeMedia(Event $event)
+    public function handleViewShowBeforeMedia(Event $event): void
     {
         $view = $event->getTarget();
         $this->hideUvDownloadButton($view, $view->media->item(), [$view->media]);

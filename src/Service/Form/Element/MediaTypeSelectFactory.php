@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 namespace Psl\Service\Form\Element;
 
-use Psl\Form\Element\MediaTypeSelect;
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psl\Form\Element\MediaTypeSelect;
 
 class MediaTypeSelectFactory implements FactoryInterface
 {

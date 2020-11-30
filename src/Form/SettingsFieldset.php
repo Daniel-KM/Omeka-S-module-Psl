@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 namespace Psl\Form;
 
-use Omeka\Form\Element\ItemSetSelect;
-use Psl\Form\Element\MediaTypeSelect;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
+use Omeka\Form\Element\ItemSetSelect;
+use Psl\Form\Element\MediaTypeSelect;
 
 class SettingsFieldset extends Fieldset
 {
@@ -13,7 +13,7 @@ class SettingsFieldset extends Fieldset
      */
     protected $label = 'PSL'; // @translate
 
-    public function init()
+    public function init(): void
     {
         $this
             ->add([
