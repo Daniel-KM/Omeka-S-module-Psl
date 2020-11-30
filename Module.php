@@ -10,10 +10,10 @@ if (!class_exists(\Generic\AbstractModule::class)) {
 use Generic\AbstractModule;
 use Omeka\Api\Representation\ItemRepresentation;
 use Omeka\Permissions\Acl;
-use Zend\EventManager\Event;
-use Zend\EventManager\SharedEventManagerInterface;
-use Zend\Mvc\MvcEvent;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\EventManager\Event;
+use Laminas\EventManager\SharedEventManagerInterface;
+use Laminas\Mvc\MvcEvent;
+use Laminas\View\Renderer\PhpRenderer;
 
 class Module extends AbstractModule
 {

@@ -4,7 +4,7 @@ namespace Psl\Service\OaiPmh\Metadata;
 
 use Interop\Container\ContainerInterface;
 use Psl\OaiPmh\Metadata\PslDc;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class PslDcFactory implements FactoryInterface
 {

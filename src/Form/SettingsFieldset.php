@@ -3,8 +3,8 @@ namespace Psl\Form;
 
 use Omeka\Form\Element\ItemSetSelect;
 use Psl\Form\Element\MediaTypeSelect;
-use Zend\Form\Element;
-use Zend\Form\Fieldset;
+use Laminas\Form\Element;
+use Laminas\Form\Fieldset;
 
 class SettingsFieldset extends Fieldset
 {
