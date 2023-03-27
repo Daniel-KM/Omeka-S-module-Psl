@@ -16,6 +16,7 @@ class SettingsFieldset extends Fieldset
     public function init(): void
     {
         $this
+            ->setAttribute('id', 'psl')
             ->add([
                 'name' => 'psl_reserved_all',
                 'type' => Element\Checkbox::class,
