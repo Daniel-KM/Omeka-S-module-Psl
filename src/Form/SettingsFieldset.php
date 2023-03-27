@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Psl\Form;
 
 use Laminas\Form\Element;
@@ -13,14 +14,20 @@ class SettingsFieldset extends Fieldset
      */
     protected $label = 'PSL'; // @translate
 
+    protected $elementGroups = [
+        'psl' => 'psl', // @translate
+    ];
+
     public function init(): void
     {
         $this
             ->setAttribute('id', 'psl')
+            ->setOption('element_groups', $this->elementGroups)
             ->add([
                 'name' => 'psl_reserved_all',
                 'type' => Element\Checkbox::class,
                 'options' => [
+                    'element_group' => 'psl',
                     'label' => 'Désactiver le bouton "Télécharger" de Universal Viewer', // @translate
                 ],
                 'attributes' => [
@@ -31,6 +38,7 @@ class SettingsFieldset extends Fieldset
                 'name' => 'psl_reserved_item_sets',
                 'type' => ItemSetSelect::class,
                 'options' => [
+                    'element_group' => 'psl',
                     'label' => 'Désactiver le bouton "Télécharger" de Universal Viewer pour les collections', // @translate
                     'empty_option' => '',
                 ],
@@ -46,6 +54,7 @@ class SettingsFieldset extends Fieldset
                 'name' => 'psl_reserved_media_types',
                 'type' => MediaTypeSelect::class,
                 'options' => [
+                    'element_group' => 'psl',
                     'label' => 'Désactiver le bouton "Télécharger" de Universal Viewer pour les types de média', // @translate
                     'empty_option' => '',
                 ],
