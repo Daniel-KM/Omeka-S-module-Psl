@@ -86,8 +86,10 @@ class Module extends AbstractModule
 
     public function handleMainSettingsFilters(Event $event): void
     {
-        $event->getParam('inputFilter')
-            ->get('psl')
+        $inputFilter = version_compare(\Omeka\Module::VERSION, '4', '<')
+            ? $event->getParam('inputFilter')->get('psl')
+            : $event->getParam('inputFilter');
+        $inputFilter
             ->add([
                 'name' => 'psl_reserved_item_sets',
                 'required' => false,
