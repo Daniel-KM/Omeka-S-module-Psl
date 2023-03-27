@@ -27,8 +27,7 @@ WHERE media_type IS NOT NULL
 AND media_type != ""
 ORDER BY media_type
 SQL;
-        $stmt = $connection->query($sql);
-        $result = $stmt->fetchAll(\PDO::FETCH_COLUMN);
+        $result = $connection->executeQuery($sql)->fetchFirstColumn();
         return array_combine($result, $result);
     }
 }
