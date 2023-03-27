@@ -11,7 +11,7 @@ class MediaTypeSelectFactory implements FactoryInterface
     {
         $list = $this->listMediaTypes($services);
 
-        $element = new MediaTypeSelect;
+        $element = new MediaTypeSelect(null, $options ?? []);
         return $element
             ->setValueOptions($list)
             ->setEmptyOption('Select media type…'); // @translate
