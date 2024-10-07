@@ -2,10 +2,10 @@
 
 namespace Psl\Form;
 
+use Common\Form\Element as CommonElement;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
-use Omeka\Form\Element\ItemSetSelect;
-use Psl\Form\Element\MediaTypeSelect;
+// use Omeka\Form\Element as OmekaElement;
 
 class SettingsFieldset extends Fieldset
 {
@@ -36,7 +36,7 @@ class SettingsFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'psl_reserved_item_sets',
-                'type' => ItemSetSelect::class,
+                'type' => CommonElement\OptionalItemSetSelect::class,
                 'options' => [
                     'element_group' => 'psl',
                     'label' => 'Désactiver le bouton "Télécharger" de Universal Viewer pour les collections', // @translate
@@ -52,7 +52,7 @@ class SettingsFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'psl_reserved_media_types',
-                'type' => MediaTypeSelect::class,
+                'type' => CommonElement\MediaTypeSelect::class,
                 'options' => [
                     'element_group' => 'psl',
                     'label' => 'Désactiver le bouton "Télécharger" de Universal Viewer pour les types de média', // @translate

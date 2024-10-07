@@ -1,13 +1,11 @@
 <?php declare(strict_types=1);
+
 namespace Psl;
 
 return [
     'form_elements' => [
         'invokables' => [
             Form\SettingsFieldset::class => Form\SettingsFieldset::class,
-        ],
-        'factories' => [
-            Form\Element\MediaTypeSelect::class => Service\Form\Element\MediaTypeSelectFactory::class,
         ],
     ],
     'oaipmhrepository' => [

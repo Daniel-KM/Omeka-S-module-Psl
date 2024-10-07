@@ -1,22 +1,32 @@
 <?php declare(strict_types=1);
+
 namespace Psl;
 
-if (!class_exists(\Generic\AbstractModule::class)) {
-    require file_exists(dirname(__DIR__) . '/Generic/AbstractModule.php')
-        ? dirname(__DIR__) . '/Generic/AbstractModule.php'
-        : __DIR__ . '/src/Generic/AbstractModule.php';
+if (!class_exists(\Common\TraitModule::class)) {
+    require_once dirname(__DIR__) . '/Common/TraitModule.php';
 }
 
-use Generic\AbstractModule;
+use Common\TraitModule;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\Mvc\MvcEvent;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\ItemRepresentation;
+use Omeka\Module\AbstractModule;
 use Omeka\Permissions\Acl;
 
+/**
+ * PSL
+ *
+ * Divers modifications et fonctionnalités pour le site de PSL (https://bibnum.explore.psl.eu).
+ *
+ * @copyright Daniel Berthereau, 2017-2024
+ * @license http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ */
 class Module extends AbstractModule
 {
+    use TraitModule;
+
     const NAMESPACE = __NAMESPACE__;
 
     public function onBootstrap(MvcEvent $event): void
@@ -59,6 +69,21 @@ class Module extends AbstractModule
         }
     }
 
+    protected function preInstall(): void
+    {
+        $services = $this->getServiceLocator();
+        $plugins = $services->get('ControllerPluginManager');
+        $translate = $plugins->get('translate');
+
+        if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.62')) {
+            $message = new \Omeka\Stdlib\Message(
+                $translate('The module %1$s should be upgraded to version %2$s or later.'), // @translate
+                'Common', '3.4.62'
+            );
+            throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
+        }
+    }
+
     public function attachListeners(SharedEventManagerInterface $sharedEventManager): void
     {
         $sharedEventManager->attach(
@@ -77,27 +102,6 @@ class Module extends AbstractModule
             'form.add_elements',
             [$this, 'handleMainSettings']
         );
-        $sharedEventManager->attach(
-            \Omeka\Form\SettingForm::class,
-            'form.add_input_filters',
-            [$this, 'handleMainSettingsFilters']
-        );
-    }
-
-    public function handleMainSettingsFilters(Event $event): void
-    {
-        $inputFilter = version_compare(\Omeka\Module::VERSION, '4', '<')
-            ? $event->getParam('inputFilter')->get('psl')
-            : $event->getParam('inputFilter');
-        $inputFilter
-            ->add([
-                'name' => 'psl_reserved_item_sets',
-                'required' => false,
-            ])
-            ->add([
-                'name' => 'psl_reserved_media_types',
-                'required' => false,
-            ]);
     }
 
     public function handleViewShowBeforeItem(Event $event): void
